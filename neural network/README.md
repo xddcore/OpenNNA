@@ -6,7 +6,7 @@
 ## Date:23/10/2021
 
 # 文件夹
-本文件夹放置c语言手写的前向推理过程。
+本文件夹放置论文中的网络结构。
 
 # 项目简介
 **OpenNNA**(*Opensource Neural Network Accelerator*)计划使用Xilinx ZYNQ 7020平台实现通用神经网络加速器。实现对神经网络的计算加速。
