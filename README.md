@@ -1,9 +1,10 @@
 # OpenNNA:一个可根据FPGA资源自由裁剪的通用神经网络FPGA加速器
-## 作者:xddcore
+## 作者:xddcore(Chengsen Dong)|大三毕业设计
 ## Email:1034029664@qq.com
 ## Github:www.github.com/xddcore
 ## Version:1.2
 ## Date:23/10/2021
+## 本研究成果已发表于UKSim2022会议(论文见./paper文件夹)。
 
 # 项目简介
 **OpenNNA**(*Opensource Neural Network Accelerator*)计划使用Xilinx ZYNQ 7020平台实现通用神经网络加速器。实现对神经网络的计算加速。
