@@ -7,6 +7,35 @@
 ## 本研究成果已发表于UKSim2022会议(论文见./paper文件夹)。
 ## 效果视频:https://www.bilibili.com/video/BV1hU4y1F7qV?spm_id_from=333.999.0.0
 
+# 快速验证
+>软件环境：
+>HLS:2020.1 Vivado+SDK: 2018.3/2019.1
+## HLS工程(C/C++ -> Verilog IP Core)
+1. 网络:
+2. 卷积算子:
+3. 卷积算子(Buffer):
+4. Padding算子:
+5. Pool算子:
+6. Dense算子:
+7. Activation算子:
+
+## Vivado+SDK工程(Verilog IP Core + ZYNQ PS SDK = Neural Network Accelerator)
+1. Local(本地测速):
+2. TCP/IP(网络测试，通过网络向ZYNQ发送图片，并返回推理结果):
+
+# 目录说明
+cpp: C/C++的算子/网络
+hls: 针对HLS优化过的C/C++的算子/网络
+img: 图片资源
+neural network: 论文中的实现手写数字识别的网络(Tensorflow h5文件)
+paper: 论文
+sdk: vivado sdk 裸机代码(/local, sdk) + tcp/ip通信代码(/tcpip, python+sdk)
+
+# 关于OpenNNA 2.0的开发进度
+#### OpenNNA 2.0 - 更易用，更通用，更多算子......
+- [ ] 2022.7.31 完成框架开发，并完成PC/stm32的DEMO部署
+- [ ] 2022.8.20 完成FPGA加速器优化，并完成ZYNQ-7020(正点原子7020，PYNQ-Z2),ZYNQ UltraScale+ MPSoc(zcu102)的DEMO部署
+
 # 项目简介
 **OpenNNA**(*Opensource Neural Network Accelerator*)计划使用Xilinx ZYNQ 7020平台实现通用神经网络加速器。实现对神经网络的计算加速。
 
