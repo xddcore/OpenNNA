@@ -16,15 +16,18 @@
 >软件环境：
 >HLS:2020.1 Vivado+SDK: 2018.3/2019.1
 >硬件环境:
->正点原子ZYNQ-7020 clg400-2
+>正点原子ZYNQ-7020 xc7z020clg400-2
+
 #### HLS工程(C/C++ -> Verilog IP Core)
-1. 网络:
-2. 卷积算子:
-3. 卷积算子(Buffer):
-4. Padding算子:
-5. Pool算子:
-6. Dense算子:
-7. Activation算子:
+PS:打包IP Core时如遇ERROR: [IMPL 213-28] Failed to generate IP，则尝试将Windows系统时间更改为2021年，即可解决问题。
+
+1. 网络: https://github.com/xddcore/OpenNNA/releases/tag/HLS_Network
+2. 卷积算子: 仿照上述自行构建
+3. 卷积算子(Buffer): 仿照上述自行构建
+4. Padding算子: 仿照上述自行构建
+5. Pool算子: 仿照上述自行构建
+6. Dense算子: 仿照上述自行构建
+7. Activation算子: 仿照上述自行构建
 
 #### Vivado+SDK工程(Verilog IP Core + ZYNQ PS SDK = Neural Network Accelerator)
 1. Local(本地测速):
