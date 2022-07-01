@@ -10,7 +10,8 @@
 # 快速验证
 >软件环境：
 >HLS:2020.1 Vivado+SDK: 2018.3/2019.1
-## HLS工程(C/C++ -> Verilog IP Core)
+
+#### HLS工程(C/C++ -> Verilog IP Core)
 1. 网络:
 2. 卷积算子:
 3. 卷积算子(Buffer):
@@ -19,16 +20,21 @@
 6. Dense算子:
 7. Activation算子:
 
-## Vivado+SDK工程(Verilog IP Core + ZYNQ PS SDK = Neural Network Accelerator)
+#### Vivado+SDK工程(Verilog IP Core + ZYNQ PS SDK = Neural Network Accelerator)
 1. Local(本地测速):
 2. TCP/IP(网络测试，通过网络向ZYNQ发送图片，并返回推理结果):
 
 # 目录说明
 cpp: C/C++的算子/网络
+
 hls: 针对HLS优化过的C/C++的算子/网络
+
 img: 图片资源
+
 neural network: 论文中的实现手写数字识别的网络(Tensorflow h5文件)
+
 paper: 论文
+
 sdk: vivado sdk 裸机代码(/local, sdk) + tcp/ip通信代码(/tcpip, python+sdk)
 
 # 关于OpenNNA 2.0的开发进度
