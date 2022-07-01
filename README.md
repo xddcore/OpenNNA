@@ -30,7 +30,9 @@ PS:打包IP Core时如遇ERROR: [IMPL 213-28] Failed to generate IP，则尝试�
 7. Activation算子: 仿照上述自行构建
 
 #### Vivado+SDK工程(Verilog IP Core + ZYNQ PS SDK = Neural Network Accelerator)
-1. Local(本地测速):
+PS: 以下为针对Network的demo工程，若要测试单个算子PE，可仿照下述自行构建。
+
+1. Local(本地测试):
 2. TCP/IP(网络测试，通过网络向ZYNQ发送图片，并返回推理结果):
 
 # 目录说明
