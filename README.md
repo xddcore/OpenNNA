@@ -7,10 +7,16 @@
 ## 本研究成果已发表于UKSim2022会议(论文见./paper文件夹)。
 ## 效果视频:https://www.bilibili.com/video/BV1hU4y1F7qV?spm_id_from=333.999.0.0
 
+# 关于OpenNNA 2.0的开发进度(!!! NEW !!!)
+#### OpenNNA 2.0 - 更易用，更通用，更多算子......
+- [ ] 2022.7.31 完成框架开发，并完成PC/stm32的DEMO部署
+- [ ] 2022.8.20 完成FPGA加速器优化，并完成ZYNQ-7020(正点原子7020，PYNQ-Z2),ZYNQ UltraScale+ MPSoc(zcu102)的DEMO部署
+
 # 快速验证
 >软件环境：
 >HLS:2020.1 Vivado+SDK: 2018.3/2019.1
-
+>硬件环境:
+>正点原子ZYNQ-7020 clg400-2
 #### HLS工程(C/C++ -> Verilog IP Core)
 1. 网络:
 2. 卷积算子:
@@ -37,10 +43,6 @@ paper: 论文
 
 sdk: vivado sdk 裸机代码(/local, sdk) + tcp/ip通信代码(/tcpip, python+sdk)
 
-# 关于OpenNNA 2.0的开发进度
-#### OpenNNA 2.0 - 更易用，更通用，更多算子......
-- [ ] 2022.7.31 完成框架开发，并完成PC/stm32的DEMO部署
-- [ ] 2022.8.20 完成FPGA加速器优化，并完成ZYNQ-7020(正点原子7020，PYNQ-Z2),ZYNQ UltraScale+ MPSoc(zcu102)的DEMO部署
 
 # 项目简介
 **OpenNNA**(*Opensource Neural Network Accelerator*)计划使用Xilinx ZYNQ 7020平台实现通用神经网络加速器。实现对神经网络的计算加速。
