@@ -7,7 +7,7 @@
 ## 本研究成果已发表于UKSim2022会议(论文见./paper文件夹)。
 ## 效果视频:https://www.bilibili.com/video/BV1hU4y1F7qV?spm_id_from=333.999.0.0
 
-# 关于OpenNNA 2.0的开发进度(!!! NEW !!!)
+# 关于OpenNNA 2.0的开发进度(!!! NEW[点我访问](https://github.com/xddcore/OpenNNA2.0) !!!)
 #### OpenNNA 2.0 - 更易用，更通用，更多算子......
 - [ ] 2022.7.31 完成框架开发，并完成PC/stm32的DEMO部署
 - [ ] 2022.8.20 完成FPGA加速器优化，并完成ZYNQ-7020(正点原子7020，PYNQ-Z2),ZYNQ UltraScale+ MPSoc(zcu102)的DEMO部署
