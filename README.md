@@ -21,6 +21,10 @@
 #### HLS工程(C/C++ -> Verilog IP Core)
 PS:打包IP Core时如遇ERROR: [IMPL 213-28] Failed to generate IP，则尝试将Windows系统时间更改为2021年，即可解决问题。
 
+> **IP Core BUG提示！！！，此BUG将会导致Network运行结果错误**    
+> https://github.com/xddcore/OpenNNA/issues/1
+
+
 1. 网络: https://github.com/xddcore/OpenNNA/releases/tag/HLS_Network
 2. 卷积算子: 仿照上述自行构建
 3. 卷积算子(Buffer): 仿照上述自行构建
