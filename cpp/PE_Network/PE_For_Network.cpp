@@ -3132,7 +3132,7 @@ void L3_conv2d(
 							//if (((shift_col_num == 0 || shift_row_num == 0) && L1_output_padding != 0))
 							//	output_fmap[kernel_number][shift_col_num][shift_row_num] += (data_t)0;
 							//else
-								output_fmap[kernel_number][shift_col_num][shift_row_num] += Kernel[kernel_number][kernel_channel][kernel_row][kernel_col] * input_fmap[kernel_channel][kernel_row + shift_col_num * L1_conv_stride][kernel_col + shift_row_num * L1_conv_stride];
+								output_fmap[kernel_number][shift_col_num][shift_row_num] += Kernel[kernel_number][kernel_channel][kernel_row][kernel_col] * input_fmap[kernel_channel][kernel_row + shift_col_num * L3_conv_stride][kernel_col + shift_row_num * L3_conv_stride];
 							//output_fmap[kernel_number][shift_col_num][shift_row_num] += ((shift_col_num == 0 || shift_row_num == 0) && L3_output_padding != 0) ? (data_t)0 : (data_t)(((Kernel[kernel_number][kernel_channel][kernel_row][kernel_col] * input_fmap[kernel_channel][kernel_row + shift_col_num * L3_conv_stride][kernel_col + shift_row_num * L3_conv_stride])) + (((kernel_row + kernel_col + kernel_channel) == (L3_Kernel_size + L3_Kernel_size + L3_Kernel_channel - 3)) ? bias[kernel_number] : (data_t)0));
 						}
 					}
