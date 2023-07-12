@@ -7,56 +7,56 @@
 typedef ap_fixed<16,8,AP_RND,AP_SAT> data_t;
 
 /*L1 Conv2d*/
-#define L1_Kernel_size 3 //¾í»ıºË´óĞ¡
-#define L1_Kernel_channel 1 //¾í»ıºËÍ¨µÀ
-#define L1_Kernel_number 16 //¾í»ıºËÊıÁ¿
-#define L1_bias_number 16  //Æ«ÖÃÊıÁ¿
-#define L1_input_fmap_size 32 //ÊäÈëÌØÕ÷Í¼´óĞ¡
-#define L1_input_fmap_channel 1 //ÊäÈëÌØÕ÷Í¼Í¨µÀ
-#define L1_output_fmap_size (((L1_input_fmap_size+2*L1_conv_padding-L1_Kernel_size)/ L1_conv_stride)+1)+L1_output_padding //Êä³öÌØÕ÷Í¼ÊıÁ¿+Êä³öPadding
-#define L1_output_fmap_channel 16 //Êä³öÌØÕ÷Í¼Í¨µÀ
-#define L1_conv_padding 0//¾í»ıÇ°Ìî³ä,ÔÚ±ßÔµÉÏÌî³änÈ¦0(Î´ÊµÏÖ)
-#define L1_conv_stride 1//¾í»ıºË²½³¤
-#define L1_output_padding 0//Êä³öpadding //»¹ĞèÒªĞŞ¸Ä¾í»ıºËµÄÒ»¸öÈıÄ¿ÔËËã·ûÌõ¼ş
+#define L1_Kernel_size 3 //å·ç§¯æ ¸å¤§å°
+#define L1_Kernel_channel 1 //å·ç§¯æ ¸é€šé“
+#define L1_Kernel_number 16 //å·ç§¯æ ¸æ•°é‡
+#define L1_bias_number 16  //åç½®æ•°é‡
+#define L1_input_fmap_size 32 //è¾“å…¥ç‰¹å¾å›¾å¤§å°
+#define L1_input_fmap_channel 1 //è¾“å…¥ç‰¹å¾å›¾é€šé“
+#define L1_output_fmap_size (((L1_input_fmap_size+2*L1_conv_padding-L1_Kernel_size)/ L1_conv_stride)+1)+L1_output_padding //è¾“å‡ºç‰¹å¾å›¾æ•°é‡+è¾“å‡ºPadding
+#define L1_output_fmap_channel 16 //è¾“å‡ºç‰¹å¾å›¾é€šé“
+#define L1_conv_padding 0//å·ç§¯å‰å¡«å……,åœ¨è¾¹ç¼˜ä¸Šå¡«å……nåœˆ0(æœªå®ç°)
+#define L1_conv_stride 1//å·ç§¯æ ¸æ­¥é•¿
+#define L1_output_padding 0//è¾“å‡ºpadding //è¿˜éœ€è¦ä¿®æ”¹å·ç§¯æ ¸çš„ä¸€ä¸ªä¸‰ç›®è¿ç®—ç¬¦æ¡ä»¶
 
 /*L2 Maxpool2D*/
-#define L2_MaxpoolKernel_size 2 //³Ø»¯ºË´óĞ¡
-#define L2_MaxpoolKernel_stride 2//³Ø»¯ºË²½³¤
-#define L2_input_fmap_size 30 //ÊäÈëÌØÕ÷Í¼´óĞ¡
-#define L2_input_fmap_channel 16 //ÊäÈëÌØÕ÷Í¼Í¨µÀ
-#define L2_output_fmap_size (((L2_input_fmap_size-L2_MaxpoolKernel_size)/ L2_MaxpoolKernel_stride)+1) //Êä³öÌØÕ÷Í¼ÊıÁ¿
-#define L2_output_fmap_channel 16 //Êä³öÌØÕ÷Í¼Í¨µÀ
+#define L2_MaxpoolKernel_size 2 //æ± åŒ–æ ¸å¤§å°
+#define L2_MaxpoolKernel_stride 2//æ± åŒ–æ ¸æ­¥é•¿
+#define L2_input_fmap_size 30 //è¾“å…¥ç‰¹å¾å›¾å¤§å°
+#define L2_input_fmap_channel 16 //è¾“å…¥ç‰¹å¾å›¾é€šé“
+#define L2_output_fmap_size (((L2_input_fmap_size-L2_MaxpoolKernel_size)/ L2_MaxpoolKernel_stride)+1) //è¾“å‡ºç‰¹å¾å›¾æ•°é‡
+#define L2_output_fmap_channel 16 //è¾“å‡ºç‰¹å¾å›¾é€šé“
 
 /*L3 Conv2D*/
-#define L3_Kernel_size 3 //¾í»ıºË´óĞ¡
-#define L3_Kernel_channel 16 //¾í»ıºËÍ¨µÀ
-#define L3_Kernel_number 32 //¾í»ıºËÊıÁ¿
-#define L3_bias_number 32  //Æ«ÖÃÊıÁ¿
-#define L3_input_fmap_size 15 //ÊäÈëÌØÕ÷Í¼´óĞ¡
-#define L3_input_fmap_channel 16 //ÊäÈëÌØÕ÷Í¼Í¨µÀ
-#define L3_output_fmap_size (((L3_input_fmap_size+2*L3_conv_padding-L3_Kernel_size)/ L3_conv_stride)+1)+L3_output_padding //Êä³öÌØÕ÷Í¼ÊıÁ¿+Êä³öPadding
-#define L3_output_fmap_channel 32 //Êä³öÌØÕ÷Í¼Í¨µÀ
-#define L3_conv_padding 0//¾í»ıÇ°Ìî³ä,ÔÚ±ßÔµÉÏÌî³änÈ¦0(Î´ÊµÏÖ)
-#define L3_conv_stride 1//¾í»ıºË²½³¤
-#define L3_output_padding 0//Êä³öpadding //»¹ĞèÒªĞŞ¸Ä¾í»ıºËµÄÒ»¸öÈıÄ¿ÔËËã·ûÌõ¼ş
+#define L3_Kernel_size 3 //å·ç§¯æ ¸å¤§å°
+#define L3_Kernel_channel 16 //å·ç§¯æ ¸é€šé“
+#define L3_Kernel_number 32 //å·ç§¯æ ¸æ•°é‡
+#define L3_bias_number 32  //åç½®æ•°é‡
+#define L3_input_fmap_size 15 //è¾“å…¥ç‰¹å¾å›¾å¤§å°
+#define L3_input_fmap_channel 16 //è¾“å…¥ç‰¹å¾å›¾é€šé“
+#define L3_output_fmap_size (((L3_input_fmap_size+2*L3_conv_padding-L3_Kernel_size)/ L3_conv_stride)+1)+L3_output_padding //è¾“å‡ºç‰¹å¾å›¾æ•°é‡+è¾“å‡ºPadding
+#define L3_output_fmap_channel 32 //è¾“å‡ºç‰¹å¾å›¾é€šé“
+#define L3_conv_padding 0//å·ç§¯å‰å¡«å……,åœ¨è¾¹ç¼˜ä¸Šå¡«å……nåœˆ0(æœªå®ç°)
+#define L3_conv_stride 1//å·ç§¯æ ¸æ­¥é•¿
+#define L3_output_padding 0//è¾“å‡ºpadding //è¿˜éœ€è¦ä¿®æ”¹å·ç§¯æ ¸çš„ä¸€ä¸ªä¸‰ç›®è¿ç®—ç¬¦æ¡ä»¶
 
 /*L4 Maxpool2D*/
-#define L4_MaxpoolKernel_size 2 //³Ø»¯ºË´óĞ¡
-#define L4_MaxpoolKernel_stride 2//³Ø»¯ºË²½³¤
-#define L4_input_fmap_size 13 //ÊäÈëÌØÕ÷Í¼´óĞ¡
-#define L4_input_fmap_channel 32 //ÊäÈëÌØÕ÷Í¼Í¨µÀ
-#define L4_output_fmap_size (((L4_input_fmap_size-L4_MaxpoolKernel_size)/ L4_MaxpoolKernel_stride)+1) //Êä³öÌØÕ÷Í¼ÊıÁ¿
-#define L4_output_fmap_channel 32 //Êä³öÌØÕ÷Í¼Í¨µÀ
+#define L4_MaxpoolKernel_size 2 //æ± åŒ–æ ¸å¤§å°
+#define L4_MaxpoolKernel_stride 2//æ± åŒ–æ ¸æ­¥é•¿
+#define L4_input_fmap_size 13 //è¾“å…¥ç‰¹å¾å›¾å¤§å°
+#define L4_input_fmap_channel 32 //è¾“å…¥ç‰¹å¾å›¾é€šé“
+#define L4_output_fmap_size (((L4_input_fmap_size-L4_MaxpoolKernel_size)/ L4_MaxpoolKernel_stride)+1) //è¾“å‡ºç‰¹å¾å›¾æ•°é‡
+#define L4_output_fmap_channel 32 //è¾“å‡ºç‰¹å¾å›¾é€šé“
 
 /*L5 Dense*/
-#define L5_input_fmap_size 1152 //È«Á¬½Ó²ãÊäÈëÌØÕ÷Í¼´óĞ¡
-#define L5_neure_number 64 //Éñ¾­ÔªÊıÁ¿
-#define L5_output_fmap_size 64 //Êä³öÌØÕ÷Í¼´óĞ¡
+#define L5_input_fmap_size 1152 //å…¨è¿æ¥å±‚è¾“å…¥ç‰¹å¾å›¾å¤§å°
+#define L5_neure_number 64 //ç¥ç»å…ƒæ•°é‡
+#define L5_output_fmap_size 64 //è¾“å‡ºç‰¹å¾å›¾å¤§å°
 
 /*L6 Dense*/
-#define L6_input_fmap_size  64 //È«Á¬½Ó²ãÊäÈëÌØÕ÷Í¼´óĞ¡
-#define L6_neure_number  10 //Éñ¾­ÔªÊıÁ¿
-#define L6_output_fmap_size  10 //Êä³öÌØÕ÷Í¼´óĞ¡
+#define L6_input_fmap_size  64 //å…¨è¿æ¥å±‚è¾“å…¥ç‰¹å¾å›¾å¤§å°
+#define L6_neure_number  10 //ç¥ç»å…ƒæ•°é‡
+#define L6_output_fmap_size  10 //è¾“å‡ºç‰¹å¾å›¾å¤§å°
 
 #include "conv1_weights_bias.h"
 #include "conv3_weights_bias.h"

@@ -1,10 +1,16 @@
-/*FPGA¾í»ıÉñ¾­ÍøÂç PEµ¥ÔªHLS´úÂë*/
-/*×÷Õß:xddcore*/
+/*FPGAå·ç§¯ç¥ç»ç½‘ç»œ PEå•å…ƒHLSä»£ç */
+/*ä½œè€…:xddcore*/
 /*05/10/2021*/
 
+
 /*
- * Ã¿²ãÍøÂçÎªUINT8ÊäÈë,UINT8Êä³ö;
- * ¾í»ıºËÈ¨ÖØÎªUint8
+ * fixup pe init value
+ * xddcore 2023/07/12
+ * */
+
+/*
+ * æ¯å±‚ç½‘ç»œä¸ºUINT8è¾“å…¥,UINT8è¾“å‡º;
+ * å·ç§¯æ ¸æƒé‡ä¸ºUint8
  */
 #include "process_element.h"
 #include <cstring>
@@ -24,7 +30,7 @@ data_t L5_output_fmap[L5_output_fmap_size] = {};
 data_t L5_output_fmap_ReLu[L5_output_fmap_size] = {};
 
 data_t L6_output_fmap[L6_output_fmap_size] = {};
-/*ºËĞÄº¯Êı*/
+/*æ ¸å¿ƒå‡½æ•°*/
 data_t Relu(data_t x)
 {
 	return (x < 0) ? (data_t)0 : x;
@@ -36,12 +42,12 @@ void L1_conv2d(
 	data_t output_fmap[L1_output_fmap_channel][L1_output_fmap_size][L1_output_fmap_size]
 )
 {
-	//int fmap_row, fmap_col, fmap_channel; //ÌØÕ÷Í¼É¨Ãè¼ÆËã
-	int kernel_row, kernel_col, kernel_channel, kernel_number; //¾í»ıºËÉ¨Ãè¼ÆËã
-	int shift_col_num;//¾í»ıºËÁĞ ºáÒÆ´ÎÊı
-	int shift_row_num;//¾í»ıºËĞĞ ÊúÒÆ´ÎÊı
-	int bias_number;//Æ«ÖÃ¸öÊı,Ò»¸öoutput fmap¶ÔÓ¦Ò»¸öbias
-	//ÒÔ¾í»ıºËÎªµ¥Î»½øĞĞÉ¨Ãè(É¨ÃèË³ĞòÓÉ´óÖÁĞ¡|ÊıÁ¿,Í¨µÀ,ĞĞ,ÁĞ)
+	//int fmap_row, fmap_col, fmap_channel; //ç‰¹å¾å›¾æ‰«æè®¡ç®—
+	int kernel_row, kernel_col, kernel_channel, kernel_number; //å·ç§¯æ ¸æ‰«æè®¡ç®—
+	int shift_col_num;//å·ç§¯æ ¸åˆ— æ¨ªç§»æ¬¡æ•°
+	int shift_row_num;//å·ç§¯æ ¸è¡Œ ç«–ç§»æ¬¡æ•°
+	int bias_number;//åç½®ä¸ªæ•°,ä¸€ä¸ªoutput fmapå¯¹åº”ä¸€ä¸ªbias
+	//ä»¥å·ç§¯æ ¸ä¸ºå•ä½è¿›è¡Œæ‰«æ(æ‰«æé¡ºåºç”±å¤§è‡³å°|æ•°é‡,é€šé“,è¡Œ,åˆ—)
 	for (kernel_number = 0; kernel_number < L1_Kernel_number; kernel_number++)
 	{
 		for (kernel_channel = 0; kernel_channel < L1_Kernel_channel; kernel_channel++)
@@ -54,7 +60,9 @@ void L1_conv2d(
 					{
 						for (kernel_col = 0; kernel_col < L1_Kernel_size; kernel_col++)
 						{
-							output_fmap[kernel_number][shift_col_num][shift_row_num] += ((shift_col_num == 0 || shift_row_num == 0) && L1_output_padding != 0) ? (data_t)0 : (data_t)(((Kernel[kernel_number][kernel_channel][kernel_row][kernel_col] * input_fmap[kernel_channel][kernel_row + shift_col_num * L1_conv_stride][kernel_col + shift_row_num * L1_conv_stride])) + (((kernel_row + kernel_col + kernel_channel) == (L1_Kernel_size + L1_Kernel_size + L1_Kernel_channel - 3)) ? bias[kernel_number] : (data_t)0));
+							if ((kernel_row + kernel_col + kernel_channel) == 0)
+								output_fmap[kernel_number][shift_col_num][shift_row_num] = bias[kernel_number];
+							output_fmap[kernel_number][shift_col_num][shift_row_num] += Kernel[kernel_number][kernel_channel][kernel_row][kernel_col] * input_fmap[kernel_channel][kernel_row + shift_col_num * L1_conv_stride][kernel_col + shift_row_num * L1_conv_stride];
 						}
 					}
 				}
@@ -68,10 +76,10 @@ void L2_maxpool2d(
 	data_t output_fmap[L2_output_fmap_channel][L2_output_fmap_size][L2_output_fmap_size]
 )
 {
-	int poolkernel_row, poolkernel_col; //×î´ó³Ø»¯ºËÉ¨Ãè¼ÆËã
-	int shift_col_num;//¾í»ıºËÁĞ ºáÒÆ´ÎÊı
-	int shift_row_num;//¾í»ıºËĞĞ ÊúÒÆ´ÎÊı
-	int fmap_channel;//ÌØÕ÷Í¼Í¨µÀ
+	int poolkernel_row, poolkernel_col; //æœ€å¤§æ± åŒ–æ ¸æ‰«æè®¡ç®—
+	int shift_col_num;//å·ç§¯æ ¸åˆ— æ¨ªç§»æ¬¡æ•°
+	int shift_row_num;//å·ç§¯æ ¸è¡Œ ç«–ç§»æ¬¡æ•°
+	int fmap_channel;//ç‰¹å¾å›¾é€šé“
 	data_t max_value;
 	for (fmap_channel = 0; fmap_channel < L2_output_fmap_channel; fmap_channel++)
 	{
@@ -99,12 +107,12 @@ void L3_conv2d(
 	data_t output_fmap[L3_output_fmap_channel][L3_output_fmap_size][L3_output_fmap_size]
 )
 {
-	//int fmap_row, fmap_col, fmap_channel; //ÌØÕ÷Í¼É¨Ãè¼ÆËã
-	int kernel_row, kernel_col, kernel_channel, kernel_number; //¾í»ıºËÉ¨Ãè¼ÆËã
-	int shift_col_num;//¾í»ıºËÁĞ ºáÒÆ´ÎÊı
-	int shift_row_num;//¾í»ıºËĞĞ ÊúÒÆ´ÎÊı
-	int bias_number;//Æ«ÖÃ¸öÊı,Ò»¸öoutput fmap¶ÔÓ¦Ò»¸öbias
-	//ÒÔ¾í»ıºËÎªµ¥Î»½øĞĞÉ¨Ãè(É¨ÃèË³ĞòÓÉ´óÖÁĞ¡|ÊıÁ¿,Í¨µÀ,ĞĞ,ÁĞ)
+	//int fmap_row, fmap_col, fmap_channel; //ç‰¹å¾å›¾æ‰«æè®¡ç®—
+	int kernel_row, kernel_col, kernel_channel, kernel_number; //å·ç§¯æ ¸æ‰«æè®¡ç®—
+	int shift_col_num;//å·ç§¯æ ¸åˆ— æ¨ªç§»æ¬¡æ•°
+	int shift_row_num;//å·ç§¯æ ¸è¡Œ ç«–ç§»æ¬¡æ•°
+	int bias_number;//åç½®ä¸ªæ•°,ä¸€ä¸ªoutput fmapå¯¹åº”ä¸€ä¸ªbias
+	//ä»¥å·ç§¯æ ¸ä¸ºå•ä½è¿›è¡Œæ‰«æ(æ‰«æé¡ºåºç”±å¤§è‡³å°|æ•°é‡,é€šé“,è¡Œ,åˆ—)
 	for (kernel_number = 0; kernel_number < L3_Kernel_number; kernel_number++)
 	{
 		for (kernel_channel = 0; kernel_channel < L3_Kernel_channel; kernel_channel++)
@@ -117,7 +125,9 @@ void L3_conv2d(
 					{
 						for (kernel_col = 0; kernel_col < L3_Kernel_size; kernel_col++)
 						{
-							output_fmap[kernel_number][shift_col_num][shift_row_num] += ((shift_col_num == 0 || shift_row_num == 0) && L3_output_padding != 0) ? (data_t)0 : (data_t)(((Kernel[kernel_number][kernel_channel][kernel_row][kernel_col] * input_fmap[kernel_channel][kernel_row + shift_col_num * L3_conv_stride][kernel_col + shift_row_num * L3_conv_stride])) + (((kernel_row + kernel_col + kernel_channel) == (L3_Kernel_size + L3_Kernel_size + L3_Kernel_channel - 3)) ? bias[kernel_number] : (data_t)0));
+							if ((kernel_row + kernel_col + kernel_channel) == 0)
+								output_fmap[kernel_number][shift_col_num][shift_row_num] = bias[kernel_number];
+							output_fmap[kernel_number][shift_col_num][shift_row_num] += Kernel[kernel_number][kernel_channel][kernel_row][kernel_col] * input_fmap[kernel_channel][kernel_row + shift_col_num * L3_conv_stride][kernel_col + shift_row_num * L3_conv_stride];
 						}
 					}
 				}
@@ -131,10 +141,10 @@ void L4_maxpool2d(
 	data_t output_fmap[L4_output_fmap_channel][L4_output_fmap_size][L4_output_fmap_size]
 )
 {
-	int poolkernel_row, poolkernel_col; //×î´ó³Ø»¯ºËÉ¨Ãè¼ÆËã
-	int shift_col_num;//¾í»ıºËÁĞ ºáÒÆ´ÎÊı
-	int shift_row_num;//¾í»ıºËĞĞ ÊúÒÆ´ÎÊı
-	int fmap_channel;//ÌØÕ÷Í¼Í¨µÀ
+	int poolkernel_row, poolkernel_col; //æœ€å¤§æ± åŒ–æ ¸æ‰«æè®¡ç®—
+	int shift_col_num;//å·ç§¯æ ¸åˆ— æ¨ªç§»æ¬¡æ•°
+	int shift_row_num;//å·ç§¯æ ¸è¡Œ ç«–ç§»æ¬¡æ•°
+	int fmap_channel;//ç‰¹å¾å›¾é€šé“
 	data_t max_value;
 	for (fmap_channel = 0; fmap_channel < L4_output_fmap_channel; fmap_channel++)
 	{
@@ -162,16 +172,16 @@ void L5_dense(
 	data_t output_fmap[L5_output_fmap_size]
 )
 {
-	int input_fmap_size; //ÊäÈëÒ»Î¬ÌØÕ÷Í¼´óĞ¡
-	int weights_bias_number;//È¨ÖØºÍÆ«ÖÃ¼ÆÊı(Ò»¸öneura->1 weights + 1 bias)
+	int input_fmap_size; //è¾“å…¥ä¸€ç»´ç‰¹å¾å›¾å¤§å°
+	int weights_bias_number;//æƒé‡å’Œåç½®è®¡æ•°(ä¸€ä¸ªneura->1 weights + 1 bias)
 	for (weights_bias_number = 0; weights_bias_number < L5_neure_number; weights_bias_number++)
 	{
 		for (input_fmap_size = 0; input_fmap_size < L5_input_fmap_size; input_fmap_size++)
 		{
-			output_fmap[weights_bias_number] += (input_fmap[input_fmap_size] * neure_weights[weights_bias_number][input_fmap_size]); //+ neure_bias[weights_bias_number];
-
+			if (input_fmap_size == 0)
+				output_fmap[weights_bias_number] = neure_bias[weights_bias_number];
+			output_fmap[weights_bias_number] += (input_fmap[input_fmap_size] * neure_weights[weights_bias_number][input_fmap_size]);
 		}
-		output_fmap[weights_bias_number] += neure_bias[weights_bias_number];
 	}
 }
 
@@ -182,16 +192,16 @@ void L6_dense(
 	data_t output_fmap[L6_output_fmap_size]
 )
 {
-	int input_fmap_size; //ÊäÈëÒ»Î¬ÌØÕ÷Í¼´óĞ¡
-	int weights_bias_number;//È¨ÖØºÍÆ«ÖÃ¼ÆÊı(Ò»¸öneura->1 weights + 1 bias)
+	int input_fmap_size; //è¾“å…¥ä¸€ç»´ç‰¹å¾å›¾å¤§å°
+	int weights_bias_number;//æƒé‡å’Œåç½®è®¡æ•°(ä¸€ä¸ªneura->1 weights + 1 bias)
 	for (weights_bias_number = 0; weights_bias_number < L6_neure_number; weights_bias_number++)
 	{
 		for (input_fmap_size = 0; input_fmap_size < L6_input_fmap_size; input_fmap_size++)
 		{
-			output_fmap[weights_bias_number] += (input_fmap[input_fmap_size] * neure_weights[weights_bias_number][input_fmap_size]); //+ neure_bias[weights_bias_number];
-
+			if (input_fmap_size == 0)
+				output_fmap[weights_bias_number] = neure_bias[weights_bias_number];
+			output_fmap[weights_bias_number] += (input_fmap[input_fmap_size] * neure_weights[weights_bias_number][input_fmap_size]);
 		}
-		output_fmap[weights_bias_number] += neure_bias[weights_bias_number];
 	}
 }
 
@@ -206,9 +216,9 @@ int process_element(
 
 	data_t L1_input_fmap[L1_input_fmap_channel][L1_input_fmap_size][L1_input_fmap_size];
 	memcpy(L1_input_fmap,(const data_t*)input_fmap,L1_input_fmap_size*L1_input_fmap_size*sizeof(data_t));
-	/*¼ÆËãConv1½á¹û*/
+	/*è®¡ç®—Conv1ç»“æœ*/
 	L1_conv2d(L1_Kernel, L1_bias, L1_input_fmap, L1_output_fmap);
-	/*½«Conv1½á¹ûÓÃReLu¼¤Àøº¯Êı¼¤Àø*/
+	/*å°†Conv1ç»“æœç”¨ReLuæ¿€åŠ±å‡½æ•°æ¿€åŠ±*/
 	for (int i = 0; i < L1_output_fmap_channel; i++)
 	{
 		for (int j = 0; j < L1_output_fmap_size; j++)
@@ -220,11 +230,11 @@ int process_element(
 		}
 	}
 
-	/*¼ÆËã×î´ó³Ø»¯½á¹û*/
+	/*è®¡ç®—æœ€å¤§æ± åŒ–ç»“æœ*/
 	L2_maxpool2d(L1_output_fmap_ReLu, L2_output_fmap);
-	/*¼ÆËãConv3½á¹û*/
+	/*è®¡ç®—Conv3ç»“æœ*/
 	L3_conv2d(L3_Kernel, L3_bias, L2_output_fmap, L3_output_fmap);
-	/*½«Conv3½á¹ûÓÃReLu¼¤Àøº¯Êı¼¤Àø*/
+	/*å°†Conv3ç»“æœç”¨ReLuæ¿€åŠ±å‡½æ•°æ¿€åŠ±*/
 	for (int i = 0; i < L3_output_fmap_channel; i++)
 	{
 		for (int j = 0; j < L3_output_fmap_size; j++)
@@ -235,33 +245,33 @@ int process_element(
 			}
 		}
 	}
-	/*¼ÆËã×î´ó³Ø»¯½á¹û*/
+	/*è®¡ç®—æœ€å¤§æ± åŒ–ç»“æœ*/
 	L4_maxpool2d(L3_output_fmap_ReLu, L4_output_fmap);
-	/*½«×î´ó³Ø»¯½á¹û½øĞĞFlatten*/
-	int flatten_i = 0;//flatten ²Ù×÷²ÎÊı
+	/*å°†æœ€å¤§æ± åŒ–ç»“æœè¿›è¡ŒFlatten*/
+	int flatten_i = 0;//flatten æ“ä½œå‚æ•°
 	for (int i = 0; i < L4_output_fmap_size; i++)
 	{
 		for (int j = 0; j < L4_output_fmap_size; j++)
 		{
 			for (int k = 0; k < L4_output_fmap_channel; k++)
 			{
-				L4_flatten_output_map[flatten_i] = L4_output_fmap[k][i][j];//(ÎªÁËÅäºÏdenseÈ¨ÖØĞÎ×´)°´Í¨µÀ·½ÏòÕ¹¿ª, Ë³ĞòµÚÒ»Í¨µÀµÚÒ»ĞĞµÚÒ»ÁĞ,µÚ¶şÍ¨µÀµÚÒ»ĞĞµÚÒ»ÁĞ
+				L4_flatten_output_map[flatten_i] = L4_output_fmap[k][i][j];//(ä¸ºäº†é…åˆdenseæƒé‡å½¢çŠ¶)æŒ‰é€šé“æ–¹å‘å±•å¼€, é¡ºåºç¬¬ä¸€é€šé“ç¬¬ä¸€è¡Œç¬¬ä¸€åˆ—,ç¬¬äºŒé€šé“ç¬¬ä¸€è¡Œç¬¬ä¸€åˆ—
 				flatten_i++;
 			}
 		}
 	}
-	/*¼ÆËãDense5½á¹û*/
+	/*è®¡ç®—Dense5ç»“æœ*/
 	L5_dense(L5_neure_weights, L5_neure_bias, L4_flatten_output_map, L5_output_fmap);
-	/*½«Dense5½á¹ûÓÃReLu¼¤Àøº¯Êı¼¤Àø*/
+	/*å°†Dense5ç»“æœç”¨ReLuæ¿€åŠ±å‡½æ•°æ¿€åŠ±*/
 	for (int i = 0; i < L5_output_fmap_size; i++)
 	{
 		L5_output_fmap_ReLu[i] = Relu(L5_output_fmap[i]);
 	}
-	/*¼ÆËãDense6½á¹û*/
+	/*è®¡ç®—Dense6ç»“æœ*/
 	L6_dense(L6_neure_weights, L6_neure_bias, L5_output_fmap_ReLu, L6_output_fmap);
-	/*Êä³öDense6½á¹û*/
+	/*è¾“å‡ºDense6ç»“æœ*/
 	memcpy(output_fmap,L6_output_fmap,L6_output_fmap_size*sizeof(data_t));
-	/*¼ÆËãDense6½á¹û·ÅÈësigmoidº¯Êı,ÒòÎªĞèÒªy=exp(x)º¯Êı,fpga²»ºÃ¼ÆËã,ËùÒÔ·ÅÈëarm¶Ë½øĞĞ*/
+	/*è®¡ç®—Dense6ç»“æœæ”¾å…¥sigmoidå‡½æ•°,å› ä¸ºéœ€è¦y=exp(x)å‡½æ•°,fpgaä¸å¥½è®¡ç®—,æ‰€ä»¥æ”¾å…¥armç«¯è¿›è¡Œ*/
 
 	return 0;
 
