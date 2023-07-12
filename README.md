@@ -22,7 +22,7 @@
 PS:打包IP Core时如遇ERROR: [IMPL 213-28] Failed to generate IP，则尝试将Windows系统时间更改为2021年，即可解决问题。
 
 > **IP Core BUG提示！！！，此BUG将会导致Network运行结果错误**    
-> [点我查看BUG及解决方案-1(无需编译综合，直接使用我验证后的IP Core替换原有工程IP Core)](https://github.com/xddcore/OpenNNA/issues/1)
+> [点我查看BUG及解决方案-1(无需编译综合，直接使用我验证后的IP Core替换原有工程IP Core)](https://github.com/xddcore/OpenNNA/issues/1)      
 > [点我查看BUG及解决方案-2(需要自己编译综合，从HLS源码级别重新导出IP Core并替换原有工程IP Core)](https://github.com/xddcore/OpenNNA/issues/2)
 
 
